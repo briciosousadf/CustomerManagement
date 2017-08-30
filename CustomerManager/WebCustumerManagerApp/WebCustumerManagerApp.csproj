@@ -118,10 +118,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EntityCustomerController.cs" />
+    <Compile Include="Controllers\EntityOccupationGroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EntityCustomer.cs" />
+    <Compile Include="Models\EntityOccupationGroup.cs" />
+    <Compile Include="Models\ViewModels\EntityCustomerOccupationViewModel.cs" />
+    <Compile Include="Models\WebCustumerManagerAppContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -129,6 +135,16 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\EntityCustomer\Create.cshtml" />
+    <Content Include="Views\EntityCustomer\Delete.cshtml" />
+    <Content Include="Views\EntityCustomer\Details.cshtml" />
+    <Content Include="Views\EntityCustomer\Edit.cshtml" />
+    <Content Include="Views\EntityCustomer\Index.cshtml" />
+    <Content Include="Views\EntityOccupationGroup\Create.cshtml" />
+    <Content Include="Views\EntityOccupationGroup\Delete.cshtml" />
+    <Content Include="Views\EntityOccupationGroup\Details.cshtml" />
+    <Content Include="Views\EntityOccupationGroup\Edit.cshtml" />
+    <Content Include="Views\EntityOccupationGroup\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -138,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
