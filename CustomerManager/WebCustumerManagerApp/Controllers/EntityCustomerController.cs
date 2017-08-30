@@ -35,11 +35,15 @@ namespace WebCustumerManagerApp.Controllers
             }
             return View(entityCustomer);
         }
-
+        
         // GET: EntityCustomer/Create
         public ActionResult Create()
         {
-            return View();
+            var viewModel = new EntityCustomerOccupationViewModel();
+            viewModel.EntityCustomer = new EntityCustomer();
+            viewModel.OccupationGroupList = db.EntityOccupationGroups.ToList();
+
+            return View(viewModel);
         }
 
         // POST: EntityCustomer/Create
@@ -47,7 +51,7 @@ namespace WebCustumerManagerApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CustomerId,CustomerFirstName,CustomerLastName")] EntityCustomer entityCustomer)
+        public ActionResult Create(EntityCustomer entityCustomer)
         {
             if (ModelState.IsValid)
             {
@@ -66,12 +70,15 @@ namespace WebCustumerManagerApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EntityCustomer entityCustomer = db.EntityCustomers.Find(id);
-            if (entityCustomer == null)
+            //EntityCustomer entityCustomer = db.EntityCustomers.Find(id);
+            var viewModel = new EntityCustomerOccupationViewModel();
+            viewModel.EntityCustomer = db.EntityCustomers.Find(id);
+            viewModel.OccupationGroupList = db.EntityOccupationGroups.ToList();
+            if (viewModel.EntityCustomer == null)
             {
                 return HttpNotFound();
             }
-            return View(entityCustomer);
+            return View(viewModel);
         }
 
         // POST: EntityCustomer/Edit/5
@@ -79,11 +86,14 @@ namespace WebCustumerManagerApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CustomerId,CustomerFirstName,CustomerLastName")] EntityCustomer entityCustomer)
+        public ActionResult Edit(EntityCustomer entityCustomer)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(entityCustomer).State = EntityState.Modified;
+                db.Database.Log = Console.WriteLine;
+                var entry = db.Entry(entityCustomer);
+                entry.State = EntityState.Modified;
+               
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

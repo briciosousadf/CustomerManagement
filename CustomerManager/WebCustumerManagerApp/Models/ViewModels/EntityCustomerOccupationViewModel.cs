@@ -7,8 +7,7 @@ namespace WebCustumerManagerApp.Models.ViewModels
 {
     public class EntityCustomerOccupationViewModel
     {
-        public IEnumerable <EntityOccupationGroup> OccupationGroupTitle { get; set; }
-
-
+        public EntityCustomer EntityCustomer { get; set; }
+        public IEnumerable <EntityOccupationGroup> OccupationGroupList { get; set; }
     }
 }
