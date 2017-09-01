@@ -146,6 +146,14 @@
     <Compile Include="Migrations\201708302024267_CustFKey.Designer.cs">
       <DependentUpon>201708302024267_CustFKey.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709011733179_LoginUser.cs" />
+    <Compile Include="Migrations\201709011733179_LoginUser.Designer.cs">
+      <DependentUpon>201709011733179_LoginUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709011940257_UserNewDb.cs" />
+    <Compile Include="Migrations\201709011940257_UserNewDb.Designer.cs">
+      <DependentUpon>201709011940257_UserNewDb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EntityCustomer.cs" />
     <Compile Include="Models\EntityOccupationGroup.cs" />
@@ -175,6 +183,7 @@
     <Content Include="Views\EntityLoginUser\Details.cshtml" />
     <Content Include="Views\EntityLoginUser\Edit.cshtml" />
     <Content Include="Views\EntityLoginUser\Index.cshtml" />
+    <Content Include="Views\EntityLoginUser\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -191,6 +200,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201708302024267_CustFKey.resx">
       <DependentUpon>201708302024267_CustFKey.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709011733179_LoginUser.resx">
+      <DependentUpon>201709011733179_LoginUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709011940257_UserNewDb.resx">
+      <DependentUpon>201709011940257_UserNewDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

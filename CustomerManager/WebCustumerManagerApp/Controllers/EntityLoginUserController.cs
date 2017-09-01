@@ -17,7 +17,15 @@ namespace WebCustumerManagerApp.Controllers
         // GET: EntityLoginUser
         public ActionResult Index()
         {
-            return View(db.EntityLoginUser.ToList());
+            if(Session["loggedUserId"]!= null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
+            
         }
 
         // GET: EntityLoginUser/Details/5
@@ -35,6 +43,34 @@ namespace WebCustumerManagerApp.Controllers
             return View(entityLoginUser);
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+        
+        // POST: EntityLoginUser/Login
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login (EntityLoginUser loginUser)
+        {
+            if (ModelState.IsValid)
+            {
+                using(WebCustumerManagerAppContext dc = new WebCustumerManagerAppContext())
+                {
+                    var accesValue = dc.EntityLoginUser.Where(u => u.Username.Equals(loginUser.Username) && u.Password.Equals(u.Password)).FirstOrDefault();
+                    if(accesValue != null)
+                    {
+                        Session["loggedUserId"] = accesValue.Id.ToString();
+                        Session["loggedUserName"] = accesValue.Username.ToString();
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            return View(loginUser);
+        }
+
         // GET: EntityLoginUser/Create
         public ActionResult Create()
         {
@@ -46,10 +82,11 @@ namespace WebCustumerManagerApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Username,Password,RegDate,Email")] EntityLoginUser entityLoginUser)
+        public ActionResult Create(EntityLoginUser entityLoginUser)
         {
             if (ModelState.IsValid)
             {
+                entityLoginUser.RegDate = DateTime.Now;
                 db.EntityLoginUser.Add(entityLoginUser);
                 db.SaveChanges();
                 return RedirectToAction("Index");
