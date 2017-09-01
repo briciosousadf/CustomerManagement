@@ -16,7 +16,7 @@
 </head>
 <body>
     <p>
-        @Html.ActionLink("New Customer", "Create")
+        @Html.ActionLink("New Customer", "Create",null,new { @class="btn btn-success"})
     </p>
     <table class="table">
         
@@ -47,9 +47,9 @@
                             @Html.DisplayFor(modelItem => item.OccupationGroup.OccupationGroupTitle)
                         </td>
                         <td>
-                            @Html.ActionLink("Edit", "Edit", new { id = item.CustomerId }) |
-                            @Html.ActionLink("Details", "Details", new { id = item.CustomerId }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.CustomerId })
+                            @Html.ActionLink("Edit", "Edit",null, new { id = item.CustomerId }, new { @class= "btn btn-primary" }) |
+                            @Html.ActionLink("Details", "Details",null, new { id = item.CustomerId }, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("Delete", "Delete",null, new { id = item.CustomerId }, new { @class = "btn btn-danger" })
                         </td>
                     </tr>
                 

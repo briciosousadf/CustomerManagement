@@ -17,10 +17,13 @@ namespace WebCustumerManagerApp.Models
     
         public WebCustumerManagerAppContext() : base("name=WebCustumerManagerAppContext")
         {
+            Configuration.ProxyCreationEnabled = false;
         }
 
-        public System.Data.Entity.DbSet<WebCustumerManagerApp.Models.EntityCustomer> EntityCustomers { get; set; }
+        public DbSet<EntityCustomer> EntityCustomers { get; set; }
 
-        public System.Data.Entity.DbSet<WebCustumerManagerApp.Models.EntityOccupationGroup> EntityOccupationGroups { get; set; }
+        public DbSet<EntityOccupationGroup> EntityOccupationGroups { get; set; }
+
+        public DbSet<EntityLoginUser> EntityLoginUser { get; set; }
     }
 }

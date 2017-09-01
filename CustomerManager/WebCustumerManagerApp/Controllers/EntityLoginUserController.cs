@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -11,119 +10,109 @@ using WebCustumerManagerApp.Models;
 
 namespace WebCustumerManagerApp.Controllers
 {
-    public class EntityOccupationGroupController : Controller
+    public class EntityLoginUserController : Controller
     {
         private WebCustumerManagerAppContext db = new WebCustumerManagerAppContext();
 
-        // GET: EntityOccupationGroup
+        // GET: EntityLoginUser
         public ActionResult Index()
         {
-            return View(db.EntityOccupationGroups.Include(e => e.ListOfCustomers).ToList());
+            return View(db.EntityLoginUser.ToList());
         }
 
-        // GET: EntityOccupationGroup/Details/5
+        // GET: EntityLoginUser/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EntityOccupationGroup entityOccupationGroup = db.EntityOccupationGroups.Find(id);
-            if (entityOccupationGroup == null)
+            EntityLoginUser entityLoginUser = db.EntityLoginUser.Find(id);
+            if (entityLoginUser == null)
             {
                 return HttpNotFound();
             }
-            return View(entityOccupationGroup);
+            return View(entityLoginUser);
         }
 
-        // GET: EntityOccupationGroup/Create
+        // GET: EntityLoginUser/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EntityOccupationGroup/Create
+        // POST: EntityLoginUser/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "OccupationGroupId,OccupationGroupTitle")] EntityOccupationGroup entityOccupationGroup)
+        public ActionResult Create([Bind(Include = "Id,Username,Password,RegDate,Email")] EntityLoginUser entityLoginUser)
         {
             if (ModelState.IsValid)
             {
-                db.EntityOccupationGroups.Add(entityOccupationGroup);
+                db.EntityLoginUser.Add(entityLoginUser);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(entityOccupationGroup);
+            return View(entityLoginUser);
         }
 
-        // GET: EntityOccupationGroup/Edit/5
+        // GET: EntityLoginUser/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EntityOccupationGroup entityOccupationGroup = db.EntityOccupationGroups.Find(id);
-            if (entityOccupationGroup == null)
+            EntityLoginUser entityLoginUser = db.EntityLoginUser.Find(id);
+            if (entityLoginUser == null)
             {
                 return HttpNotFound();
             }
-            return View(entityOccupationGroup);
+            return View(entityLoginUser);
         }
 
-        // POST: EntityOccupationGroup/Edit/5
+        // POST: EntityLoginUser/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "OccupationGroupId,OccupationGroupTitle")] EntityOccupationGroup entityOccupationGroup)
+        public ActionResult Edit([Bind(Include = "Id,Username,Password,RegDate,Email")] EntityLoginUser entityLoginUser)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(entityOccupationGroup).State = EntityState.Modified;
+                db.Entry(entityLoginUser).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(entityOccupationGroup);
+            return View(entityLoginUser);
         }
 
-        // GET: EntityOccupationGroup/Delete/5
+        // GET: EntityLoginUser/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            EntityOccupationGroup entityOccupationGroup = db.EntityOccupationGroups.Find(id);
-            if (entityOccupationGroup == null)
+            EntityLoginUser entityLoginUser = db.EntityLoginUser.Find(id);
+            if (entityLoginUser == null)
             {
                 return HttpNotFound();
             }
-            return View(entityOccupationGroup);
+            return View(entityLoginUser);
         }
 
-        // POST: EntityOccupationGroup/Delete/5
+        // POST: EntityLoginUser/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            EntityOccupationGroup entityOccupationGroup = db.EntityOccupationGroups.Find(id);
-            try
-            {
-                db.EntityOccupationGroups.Remove(entityOccupationGroup);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            catch (SqlException)
-            {
-
-                throw new Exception("error");
-                
-                
-            }
+            EntityLoginUser entityLoginUser = db.EntityLoginUser.Find(id);
+            db.EntityLoginUser.Remove(entityLoginUser);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

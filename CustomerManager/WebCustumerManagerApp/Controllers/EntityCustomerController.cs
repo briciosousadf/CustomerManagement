@@ -18,7 +18,7 @@ namespace WebCustumerManagerApp.Controllers
         // GET: EntityCustomer
         public ActionResult Index()
         {
-            return View(db.EntityCustomers.ToList());
+            return View(db.EntityCustomers.Include(c => c.OccupationGroup).ToList());
         }
 
         // GET: EntityCustomer/Details/5
