@@ -1,19 +1,27 @@
 ﻿@model IEnumerable<WebCustumerManagerApp.Models.EntityOccupationGroup>
 
 @{
-    Layout = null;
+    Layout = "~/Views/shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Occupation</title>
 </head>
 <body>
+
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+    </script>
+
     <p>
-        @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "Create", null, new { @class="btn btn-success"})
     </p>
     <table class="table">
         <tr>
@@ -29,9 +37,19 @@
                 @Html.DisplayFor(modelItem => item.OccupationGroupTitle)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.OccupationGroupId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.OccupationGroupId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.OccupationGroupId })
+                @Html.ActionLink("Edit", "Edit", null, new { id=item.OccupationGroupId }, new { @class="btn btn-primary"}) |
+                @Html.ActionLink("Details", "Details", null, new { id=item.OccupationGroupId }, new { @class = "btn btn-info" }) |
+               @if (item.ListOfCustomers.Any())
+               {
+                    @Html.ActionLink("Delete", "Delete", null, new { id = item.OccupationGroupId }, new { @class = "btn btn-danger disabled"}) 
+                        <a href = "#" data-toggle = "tooltip" title = "This occupation could not be deleted">
+                            <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        </a>
+               }
+               else
+               {
+                    @Html.ActionLink("Delete", "Delete", null, new { id = item.OccupationGroupId }, new { @class = "btn btn-danger" })
+               }
             </td>
         </tr>
     }

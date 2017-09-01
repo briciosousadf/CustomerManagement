@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,7 +18,7 @@ namespace WebCustumerManagerApp.Controllers
         // GET: EntityOccupationGroup
         public ActionResult Index()
         {
-            return View(db.EntityOccupationGroups.ToList());
+            return View(db.EntityOccupationGroups.Include(e => e.ListOfCustomers).ToList());
         }
 
         // GET: EntityOccupationGroup/Details/5
@@ -110,9 +111,19 @@ namespace WebCustumerManagerApp.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             EntityOccupationGroup entityOccupationGroup = db.EntityOccupationGroups.Find(id);
-            db.EntityOccupationGroups.Remove(entityOccupationGroup);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.EntityOccupationGroups.Remove(entityOccupationGroup);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (SqlException)
+            {
+
+                throw new Exception("error");
+                
+                
+            }
         }
 
         protected override void Dispose(bool disposing)

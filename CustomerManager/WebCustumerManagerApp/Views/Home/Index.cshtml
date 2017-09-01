@@ -1,24 +1,13 @@
 ﻿
 @{
-    Layout = null;
+    Layout ="~/Views/shared/_Layout.cshtml";
 }
-
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Customer Manager</title>
-</head>
-<body>
     <div>
         <p>
-            @Html.ActionLink("Create New Customer", "Index", "EntityCustomer")
+            @Html.ActionLink("Create New Customer", "Create", "EntityCustomer", null, new { @class="btn btn-success"})
         </p>
         <p>
-            @Html.ActionLink("Create New Occupation", "Index", "EntityOccupationGroup")
+            @Html.ActionLink("Create New Occupation", "Create", "EntityOccupationGroup", null, new { @class = "btn btn-success" })
         </p>
     
     </div>
-</body>
-</html>

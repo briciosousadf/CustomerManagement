@@ -15,6 +15,6 @@ namespace WebCustumerManagerApp.Models
         [Display(Name ="Occupation")]
         public string OccupationGroupTitle { get; set; }
 
-        
+        public virtual ICollection<EntityCustomer> ListOfCustomers { get; set; }
     }
 }
