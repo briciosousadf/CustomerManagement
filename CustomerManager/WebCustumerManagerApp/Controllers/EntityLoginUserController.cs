@@ -6,7 +6,9 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using WebCustumerManagerApp.Helper;
 using WebCustumerManagerApp.Models;
+using WebCustumerManagerApp.Models.ViewModels;
 
 namespace WebCustumerManagerApp.Controllers
 {
@@ -19,7 +21,7 @@ namespace WebCustumerManagerApp.Controllers
         {
             if(Session["loggedUserId"]!= null)
             {
-                return View();
+                return View(db.EntityLoginUser.ToList());
             }
             else
             {
@@ -53,22 +55,53 @@ namespace WebCustumerManagerApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login (EntityLoginUser loginUser)
+        public ActionResult Login (string userName, string password)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //using(WebCustumerManagerAppContext dc = new WebCustumerManagerAppContext())
+            //{
+            //var accesValue = dc.EntityLoginUser.Where(u => u.Username.Equals(loginUser.Username) && u.Password.Equals(loginUser.Password)).FirstOrDefault();
+            //if(accesValue != null)
+            //{
+            //Session["loggedUserId"] = accesValue.Id.ToString();
+            //Session["loggedUserName"] = accesValue.Username.ToString();
+            //return RedirectToAction("Index");
+            //}
+            //}
+            //}
+            //return View();
+            try
             {
-                using(WebCustumerManagerAppContext dc = new WebCustumerManagerAppContext())
+                using (var contex = new WebCustumerManagerAppContext())
                 {
-                    var accesValue = dc.EntityLoginUser.Where(u => u.Username.Equals(loginUser.Username) && u.Password.Equals(u.Password)).FirstOrDefault();
-                    if(accesValue != null)
+                    var getUserName = (from s in contex.EntityLoginUser where s.Username == userName || s.Email == userName select s).FirstOrDefault();
+
+                    if (getUserName != null)
                     {
-                        Session["loggedUserId"] = accesValue.Id.ToString();
-                        Session["loggedUserName"] = accesValue.Username.ToString();
-                        return RedirectToAction("Index");
+                        var hashCode = getUserName.VCodePassword;
+                        var encondingPasswordString = WebCustomerManagerHelper.EncodePassword(password, hashCode);
+                        var query = (from s in contex.EntityLoginUser where (s.Username == userName || s.Email == userName) && s.Password.Equals(encondingPasswordString) select s).FirstOrDefault();
+                        
+                        if(query != null)
+                        {
+                            Session["loggedUserId"] = query.Id.ToString();
+                            Session["loggedUserName"] = query.Username.ToString();
+                            return RedirectToAction("Index");
+                        }
+
+                        ViewBag.errormessage = "Invalid User Name or Password";
+                        return View();
                     }
+                    ViewBag.errormessage = "Invalid User Name or Password";
+                    return View();
                 }
             }
-            return View(loginUser);
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "Error!!! contact admin" + e;
+                return View();
+            }
         }
 
         // GET: EntityLoginUser/Create
@@ -84,15 +117,42 @@ namespace WebCustumerManagerApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(EntityLoginUser entityLoginUser)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            //entityLoginUser.RegDate = DateTime.Now;
+            //db.EntityLoginUser.Add(entityLoginUser);
+            //db.SaveChanges();
+            //return RedirectToAction("Index");
+            //}
+
+            //return View(entityLoginUser);
+            try
             {
-                entityLoginUser.RegDate = DateTime.Now;
-                db.EntityLoginUser.Add(entityLoginUser);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using(var contex = new WebCustumerManagerAppContext())
+                {
+                    var checkUser = (from s in contex.EntityLoginUser where s.Username == entityLoginUser.Username || s.Password == entityLoginUser.Password select s).FirstOrDefault();
+                    if (checkUser == null)
+                    {
+                        var keyNew = WebCustomerManagerHelper.GeneratePassword(10);
+                        var password = WebCustomerManagerHelper.EncodePassword(entityLoginUser.Password, keyNew);
+                        entityLoginUser.Password = password;
+                        entityLoginUser.RegDate = DateTime.Now;
+                        entityLoginUser.VCodePassword = keyNew;
+                        db.EntityLoginUser.Add(entityLoginUser);
+                        db.SaveChanges();
+                        ModelState.Clear();
+                        return RedirectToAction("Login");
+                    }
+                    ViewBag.errorMessage = "User Already Exist!!!!!";
+                    return View();
+                }
+            }
+            catch(Exception e)
+            {
+                ViewBag.errorMessage = "Some Exception occourred" + e;
+                return View();
             }
 
-            return View(entityLoginUser);
         }
 
         // GET: EntityLoginUser/Edit/5

@@ -138,6 +138,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\WebCustomerManagerHelper.cs" />
     <Compile Include="Migrations\201708281236168_InitialCreate.cs" />
     <Compile Include="Migrations\201708281236168_InitialCreate.Designer.cs">
       <DependentUpon>201708281236168_InitialCreate.cs</DependentUpon>
@@ -154,11 +155,16 @@
     <Compile Include="Migrations\201709011940257_UserNewDb.Designer.cs">
       <DependentUpon>201709011940257_UserNewDb.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709051831233_NewUserData.cs" />
+    <Compile Include="Migrations\201709051831233_NewUserData.Designer.cs">
+      <DependentUpon>201709051831233_NewUserData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\EntityCustomer.cs" />
     <Compile Include="Models\EntityOccupationGroup.cs" />
     <Compile Include="Models\EntityLoginUser.cs" />
     <Compile Include="Models\ViewModels\EntityCustomerOccupationViewModel.cs" />
+    <Compile Include="Models\ViewModels\EntityLoginUserViewModel.cs" />
     <Compile Include="Models\WebCustumerManagerAppContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -206,6 +212,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709011940257_UserNewDb.resx">
       <DependentUpon>201709011940257_UserNewDb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709051831233_NewUserData.resx">
+      <DependentUpon>201709051831233_NewUserData.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
